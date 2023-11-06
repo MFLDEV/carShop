@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: car-shop-api
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3307}/miola
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    rest:
+      base-path: /api
+  h2:
+    console:
+      enabled: true
+
+

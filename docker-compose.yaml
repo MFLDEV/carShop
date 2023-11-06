@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  # mysql db
+  mysqldbMiola:
+    container_name: mysqldbMiola
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: miola  # Update with your desired database name
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"  # Map host port to container port (adjust as needed)
+
+  # Spring Boot API service
+  carshopapi:
+    container_name: car-shop-api
+    build:
+      context: ./car-shop  # Specify the directory where your Spring Boot application code is located
+      dockerfile: Dockerfile      # Specify the Dockerfile for building the Spring Boot API image
+    restart: always
+    ports:
+      - "8080:8080"              # Map host port to container port (adjust as needed)
+    depends_on:
+      - mysqldbMiola
+      - react-app
+    environment:
+      MYSQL_HOST: mysqldbMiola  
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+  # frontend
+  react-app:
+    build:
+      context: ./reactjs
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
